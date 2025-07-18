@@ -13,12 +13,19 @@ import java.util.UUID;
 public class ProfileService  {
 
     private final ProfileRepository profileRepository;
+    private final EmailService emailService;
 
     public ProfileDTO registerProfile(ProfileDTO profileDTO) {
         // new user
         ProfileEntity newProfile = toEntity(profileDTO);
         newProfile.setActivationToken(UUID.randomUUID().toString());
         newProfile = profileRepository.save(newProfile);
+        // trigger email for user activation
+        String activationLink = "https://localhost:8080/api/v1.0/activate?token=" + newProfile.getActivationToken();
+        String subject = "Welcome to Zer0Money, Activate your Account Now : ) ";
+        String emailBody =
+                "Click on the Following Link to activate your Account " + activationLink;
+        emailService.sendEmail(newProfile.getEmail(), subject, emailBody);
         return toDTO(newProfile);
     }
 
