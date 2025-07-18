@@ -4,6 +4,7 @@ import com.consoleadmin.zer0balance.dto.ProfileDTO;
 import com.consoleadmin.zer0balance.entity.ProfileEntity;
 import com.consoleadmin.zer0balance.repository.ProfileRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -21,7 +22,7 @@ public class ProfileService  {
         newProfile.setActivationToken(UUID.randomUUID().toString());
         newProfile = profileRepository.save(newProfile);
         // trigger email for user activation
-        String activationLink = "https://localhost:8080/api/v1.0/activate?token=" + newProfile.getActivationToken();
+        String activationLink = "http://localhost:8080/api/v1.0/activate?token=" + newProfile.getActivationToken();
         String subject = "Welcome to Zer0Money, Activate your Account Now : ) ";
         String emailBody =
                 "Click on the Following Link to activate your Account " + activationLink;
@@ -52,5 +53,15 @@ public class ProfileService  {
                 .createdAt(profileEntity.getCreatedAt())
                 .updatedAt(profileEntity.getUpdatedAt())
                 .build();
+    }
+
+    public boolean activateProfile(String activationToken) {
+        return profileRepository.findByActivationToken(activationToken)
+                .map(profile -> {
+                    profile.setIsActive(true);
+                    profileRepository.save(profile);
+                    return true;
+                })
+                .orElse(false);
     }
 }
