@@ -2,11 +2,14 @@ package com.consoleadmin.zer0balance.controllers;
 
 
 import com.consoleadmin.zer0balance.dto.ProfileDTO;
+import com.consoleadmin.zer0balance.dto.AuthDTO;
 import com.consoleadmin.zer0balance.service.ProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,5 +31,23 @@ public class ProfileController {
             return ResponseEntity.ok("Activated");
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not Activated");
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<Map<String, Object>> login (@RequestBody AuthDTO authDTO) {
+        try{
+            if(!profileService.isAccountActive(authDTO.getEmail())){
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of(
+                        "message", "Zer0Money Account is not active , Please activate your account first"
+                ));
+            }
+            Map<String, Object> response = profileService.authenticateAndGenerateToken(authDTO);
+            return ResponseEntity.ok(response);
+        }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
+                    "message", "Error while logging you in"
+            ));
+        }
     }
 }
