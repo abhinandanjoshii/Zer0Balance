@@ -50,4 +50,9 @@ public class ProfileController {
             ));
         }
     }
+
+    @GetMapping("/test")
+    public String testProtectedRoute(){
+        return "consoleAdmin";
+    }
 }
