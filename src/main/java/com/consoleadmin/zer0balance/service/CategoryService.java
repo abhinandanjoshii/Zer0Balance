@@ -23,9 +23,9 @@ public class CategoryService {
 
     public CategoryDTO saveCategory(CategoryDTO categoryDTO) {
         ProfileEntity profile = profileService.getCurrentProfile();
-        if(categoryRepository.existsByNameAndProfileId(categoryDTO.getName(), profile.getId())) {
-            throw new RuntimeException("Category already exists");
-        }
++        if(categoryRepository.existsByNameAndProfileId(categoryDTO.getName(), profile.getId())) {
++            throw new ResponseStatusException(HttpStatus.CONFLICT, "Category already exists");
++        }
 
         CategoryEntity newCategory = toEntity(categoryDTO,profile);
         newCategory = categoryRepository.save(newCategory);
