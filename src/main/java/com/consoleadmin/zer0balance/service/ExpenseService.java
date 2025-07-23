@@ -6,7 +6,6 @@ import com.consoleadmin.zer0balance.entity.ExpenseEntity;
 import com.consoleadmin.zer0balance.entity.ProfileEntity;
 import com.consoleadmin.zer0balance.repository.CategoryRepository;
 import com.consoleadmin.zer0balance.repository.ExpenseRepository;
-import com.consoleadmin.zer0balance.repository.ProfileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +21,6 @@ public class ExpenseService {
     private final CategoryRepository categoryRepository;
     private final ExpenseRepository expenseRepository;
     private final ProfileService profileService;
-    private final ProfileRepository profileRepository;
 
     public ExpenseDTO addExpense(ExpenseDTO dto) {
         ProfileEntity profile = profileService.getCurrentProfile();

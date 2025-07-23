@@ -1,9 +1,7 @@
 package com.consoleadmin.zer0balance.service;
 
-import com.consoleadmin.zer0balance.dto.ExpenseDTO;
 import com.consoleadmin.zer0balance.dto.IncomeDTO;
 import com.consoleadmin.zer0balance.entity.CategoryEntity;
-import com.consoleadmin.zer0balance.entity.ExpenseEntity;
 import com.consoleadmin.zer0balance.entity.IncomeEntity;
 import com.consoleadmin.zer0balance.entity.ProfileEntity;
 import com.consoleadmin.zer0balance.repository.CategoryRepository;
@@ -20,7 +18,6 @@ import java.util.List;
 public class IncomeService {
 
     private final CategoryRepository categoryRepository;
-    private final IncomeRepository expenseRepository;
     private final ProfileService profileService;
     private final IncomeRepository incomeRepository;
 
@@ -28,9 +25,9 @@ public class IncomeService {
         ProfileEntity profile = profileService.getCurrentProfile();
         CategoryEntity category = categoryRepository.findById(dto.getCategoryId())
                 .orElseThrow(() -> new RuntimeException("Category not found"));
-        IncomeEntity newExpense = toEntity(dto, profile, category);
-        incomeRepository.save(newExpense);
-        return toDTO(newExpense);
+        IncomeEntity newIncome = toEntity(dto, profile, category);
+        incomeRepository.save(newIncome);
+        return toDTO(newIncome);
     }
 
     public List<IncomeDTO> getCurrentMonthIncomesForCurrentUser() {
