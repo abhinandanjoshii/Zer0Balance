@@ -34,4 +34,10 @@ public class CategoryController {
         List<CategoryDTO> categories = categoryService.getCategoriesByTypeForCurrentUser(type);
         return ResponseEntity.status(HttpStatus.OK).body(categories);
     }
+
+    @PutMapping("/{categoryId}")
+    public ResponseEntity<CategoryDTO> updateCategory(@PathVariable Long categoryId, @RequestBody CategoryDTO categoryDTO) {
+        CategoryDTO updatedCategory = categoryService.updateCategory(categoryId, categoryDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(updatedCategory);
+    }
 }
