@@ -38,7 +38,7 @@ public class ProfileService  {
         newProfile.setActivationToken(UUID.randomUUID().toString());
         newProfile = profileRepository.save(newProfile);
         // trigger email for user activation
-        String activationLink = activationUrl + "api/v1.0/activate?token=" + newProfile.getActivationToken();
+        String activationLink = activationUrl + "/api/v1.0/activate?token=" + newProfile.getActivationToken();
         String subject = "Welcome to Zer0Money, Activate your Account Now : ) ";
         String emailBody =
                 "Click on the Following Link to activate your Account " + activationLink;
