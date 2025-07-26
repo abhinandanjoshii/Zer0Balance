@@ -31,4 +31,6 @@ public interface ExpenseRepository extends JpaRepository<ExpenseEntity, Long> {
             LocalDate endDate,
             String keyword,
             Sort sort);
+
+    List<ExpenseEntity> findByProfileIdAndDate(Long profileId, LocalDate date);
 }
