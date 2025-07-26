@@ -6,6 +6,7 @@ import com.consoleadmin.zer0balance.entity.ProfileEntity;
 import com.consoleadmin.zer0balance.repository.ProfileRepository;
 import com.consoleadmin.zer0balance.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,13 +29,16 @@ public class ProfileService  {
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
 
+    @Value("${app.activation.url}")
+    private String activationUrl;
+
     public ProfileDTO registerProfile(ProfileDTO profileDTO) {
         // new user
         ProfileEntity newProfile = toEntity(profileDTO);
         newProfile.setActivationToken(UUID.randomUUID().toString());
         newProfile = profileRepository.save(newProfile);
         // trigger email for user activation
-        String activationLink = "http://localhost:8080/api/v1.0/activate?token=" + newProfile.getActivationToken();
+        String activationLink = activationUrl + "api/v1.0/activate?token=" + newProfile.getActivationToken();
         String subject = "Welcome to Zer0Money, Activate your Account Now : ) ";
         String emailBody =
                 "Click on the Following Link to activate your Account " + activationLink;

@@ -73,9 +73,6 @@ public class NotificationService {
     public void sendDailyExpenseSummary() {
         log.info("Job started: sendDailyExpenseSummary()");
         try {
-            if(1==1){
-                    throw new RuntimeException("Something went wrong");
-            }
             List<ProfileEntity> profiles = profileRepository.findAll();
             LocalDate today = LocalDate.now(ZoneId.of("Asia/Kolkata"));
 
