@@ -68,14 +68,10 @@ public class NotificationService {
         log.info("Cron Job ended: sendDailyIncomeExpenseReminder()");
     }
 
-    @Scheduled(cron = "0 * * * * *", zone = "IST")
-//    @Scheduled(cron = "0 0 23 * * *", zone = "IST")
+    @Scheduled(cron = "0 0 23 * * *", zone = "IST")
     public void sendDailyExpenseSummary() {
         log.info("Job started: sendDailyExpenseSummary()");
         try {
-            if(1==1){
-                    throw new RuntimeException("Something went wrong");
-            }
             List<ProfileEntity> profiles = profileRepository.findAll();
             LocalDate today = LocalDate.now(ZoneId.of("Asia/Kolkata"));
 
